@@ -8,7 +8,6 @@ if ('serviceWorker' in navigator) {
 }
 
 window.addEventListener('beforeinstallprompt', function(event) {
-    console.log('Before install prompt fired')
     event.preventDefault();
     deferredPrompt = event;
     return false
