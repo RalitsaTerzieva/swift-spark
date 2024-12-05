@@ -10,4 +10,4 @@ Finally, run `npm start` to start the development server and visit [localhost:80
 
 # Run the app on Android Simulator
 ```bash
-  http://10.0.2.2:port
+  http://10.0.2.2:8080
