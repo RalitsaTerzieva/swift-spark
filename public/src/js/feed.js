@@ -58,5 +58,9 @@ fetch('https://httpbin.org/get')
     return res.json();
   })
   .then(function(data) {
+    console.log(data);
     createCard();
+  })
+  .catch(error => {
+    console.log('Something is wrong with the fetch', error);
   });
