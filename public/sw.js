@@ -27,6 +27,17 @@ this.addEventListener('install', function(event) {
 })
 
 self.addEventListener('activate', function(event) {
+    event.waitUntil(
+        caches.keys()
+            .then(function(keyList) {
+                return Promise.all(keyList.map(function(key) {
+                    if(key !== 'static-v2' && key !== 'dynamic') {
+                        console.log('Removing old cache!', key)
+                        return caches.delete(key)
+                    }
+                }));
+            })
+    )
     return self.clients.claim(); //-> ensures the service workers are activated correctly
 })
 
