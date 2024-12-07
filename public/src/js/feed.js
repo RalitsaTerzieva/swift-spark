@@ -27,6 +27,10 @@ function closeCreatePostModal() {
   createPostArea.style.display = 'none';
 }
 
+function onSaveButtonClicked(event) {
+  console.log('Clicked')
+}
+
 shareImageButton.addEventListener('click', openCreatePostModal);
 
 closeCreatePostModalButton.addEventListener('click', closeCreatePostModal);
@@ -53,6 +57,7 @@ function createCard() {
   cardSupportingText.appendChild(cardSaveButton);
   cardSaveButton.textContent = 'Save';
   cardSaveButton.style.marginLeft = '10px';
+  cardSaveButton.addEventListener('click', onSaveButtonClicked);
   
 
   cardWrapper.appendChild(cardSupportingText);
