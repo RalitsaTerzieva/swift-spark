@@ -27,13 +27,21 @@ function closeCreatePostModal() {
   createPostArea.style.display = 'none';
 }
 
-function onSaveButtonClicked(event) {
-  console.log('Clicked')
-}
-
 shareImageButton.addEventListener('click', openCreatePostModal);
 
 closeCreatePostModalButton.addEventListener('click', closeCreatePostModal);
+
+function onSaveButtonClicked(event) {
+  console.log('Clicked')
+
+  if('caches' in window) {
+    caches.open('user-requested')
+      .then(function(cache) {
+        cache.add('https://httpbin.org/get')
+        cache.add('/src/images/sf-boat.jpg')
+      })
+  }
+}
 
 function createCard() {
   let cardWrapper = document.createElement('div');
