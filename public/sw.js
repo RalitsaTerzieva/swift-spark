@@ -60,7 +60,7 @@ self.addEventListener('fetch', function(event) {
                         })
                 })
                 .catch(function(error) {
-
+                    console.log('Error when trying to open dynamic cache', error)
                 })
           }
         })
