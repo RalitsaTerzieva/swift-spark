@@ -1,4 +1,4 @@
-const CACHE_STATIC_NAME = 'static-v8';
+const CACHE_STATIC_NAME = 'static-v11';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7'
 
 this.addEventListener('install', function(event) {
@@ -10,6 +10,7 @@ this.addEventListener('install', function(event) {
                 cache.addAll([
                     '/',
                     '/index.html',
+                    '/offline.html',
                     '/src/js/app.js',
                     '/src/js/feed.js',
                     '/src/js/promise.js',
@@ -55,12 +56,15 @@ self.addEventListener('fetch', function(event) {
                 .then(function (res) {
                     return caches.open(CACHE_DYNAMIC_NAME)
                         .then(function(cache) {
-                            //cache.put(event.request.url, res.clone())
+                            cache.put(event.request.url, res.clone())
                             return res
                         })
                 })
                 .catch(function(error) {
-                    console.log('Error when trying to open dynamic cache', error)
+                    return caches.open(CACHE_STATIC_NAME)
+                        .then(function(cache) {
+                            return cache.match('/offline.html')
+                        })
                 })
           }
         })
