@@ -74,14 +74,38 @@ function createCard() {
   sharedMomentsArea.appendChild(cardWrapper);
 }
 
-fetch('https://httpbin.org/get')
+
+
+let url = 'https://httpbin.org/get'
+let networkDataReceived = false;
+
+fetch(url)
   .then(function(res) {
     return res.json();
   })
   .then(function(data) {
-    console.log(data);
+    networkDataReceived = true;
+    console.log('From web data',data);
     createCard();
   })
   .catch(error => {
     console.log('Something is wrong with the fetch', error);
   });
+
+
+if('caches' in window) {
+  caches.match(url)
+    .then(function(response) {
+      if(response) {
+        return response.json()
+      }
+    })
+    .then(function(data) {
+      console.log('From cach data', data)
+      if(!networkDataReceived) {
+        createCard()
+      }
+    })
+}
+
+
