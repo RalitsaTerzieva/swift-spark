@@ -1,4 +1,4 @@
-const CACHE_STATIC_NAME = 'static-v13';
+const CACHE_STATIC_NAME = 'static-v14';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7'
 
 this.addEventListener('install', function(event) {
@@ -45,7 +45,21 @@ self.addEventListener('activate', function(event) {
     return self.clients.claim(); //-> ensures the service workers are activated correctly
 })
 
-// self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function(event) {
+    event.respondWith(
+      caches.open(CACHE_DYNAMIC_NAME)
+        .then(function(cache) {
+            return fetch(event.request)
+                .then(function(response) {
+                    cache.put(event.request, response.clone());
+                    return response;
+                })
+        })
+    );
+  });
+
+
+//   self.addEventListener('fetch', function(event) {
 //     event.respondWith(
 //       caches.match(event.request)
 //         .then(function(response) {
@@ -74,18 +88,18 @@ self.addEventListener('activate', function(event) {
 
 
 // network with cache fallback startegy
-self.addEventListener('fetch', function(event) {
-    event.respondWith(
-      fetch(event.request)
-        .then(function(response) {
-            return caches.open(CACHE_DYNAMIC_NAME)
-                    .then(function(cache) {
-                        cache.put(event.request.url, response.clone())
-                            return res
-                    })
-        })
-        .catch(function(err) {
-           return caches.match(event.request) 
-        })
-    );
-  });
+// self.addEventListener('fetch', function(event) {
+//     event.respondWith(
+//       fetch(event.request)
+//         .then(function(response) {
+//             return caches.open(CACHE_DYNAMIC_NAME)
+//                     .then(function(cache) {
+//                         cache.put(event.request.url, response.clone())
+//                             return res
+//                     })
+//         })
+//         .catch(function(err) {
+//            return caches.match(event.request) 
+//         })
+//     );
+//   });
