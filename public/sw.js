@@ -1,4 +1,4 @@
-const CACHE_STATIC_NAME = 'static-v15';
+const CACHE_STATIC_NAME = 'static-v16';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
 const STATIC_FILES = [
     '/',
@@ -47,6 +47,15 @@ self.addEventListener('activate', function(event) {
     return self.clients.claim(); //-> ensures the service workers are activated correctly
 })
 
+function isInArray(string, array) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === string) {
+            return true;
+        }
+    }
+    return false;
+}
+
 self.addEventListener('fetch', function(event) {
     let url = 'https://httpbin.org/get';
 
@@ -62,7 +71,7 @@ self.addEventListener('fetch', function(event) {
               })
           )
     //check if my url is part of this array files
-    } else if (new RegExp('\\b' + STATIC_FILES.join('\\b|\\b') + '\\b').test(event.request.url)) {
+    } else if (isInArray(event.request.url, STATIC_FILES)) {
         //cache only startegy for static files
         event.respondWith(caches.match(event.request))
     } else {
