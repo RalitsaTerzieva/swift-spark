@@ -82,10 +82,19 @@ function createCard() {
 
 
 
-let url = 'https://httpbin.org/get'
+let url = 'https://httpbin.org/post'
 let networkDataReceived = false;
 
-fetch(url)
+fetch(url, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  },
+  body: JSON.stringify({
+    message: "Some message!"
+  })
+})
   .then(function(res) {
     return res.json();
   })
