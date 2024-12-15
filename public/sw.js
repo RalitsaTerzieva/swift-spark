@@ -91,10 +91,12 @@ self.addEventListener('fetch', function(event) {
                 .catch(function(error) {
                     return caches.open(CACHE_STATIC_NAME)
                         .then(function(cache) {
-                            return cache.match('/offline.html')
+                            if (event.request.headers.get('accept').includes('text/html')) {
+                                return cache.match('/offline.html')
+                            }
                         })
                 })
-          }
+            }
         }))
     }
   });
