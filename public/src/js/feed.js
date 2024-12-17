@@ -58,7 +58,7 @@ function clearCards() {
   }
 }
 
-function createCard() {
+function createCard(data) {
   let cardWrapper = document.createElement('div');
   cardWrapper.className = 'shared-moment-card mdl-card mdl-shadow--2dp';
   let cardTitle = document.createElement('div');
@@ -88,21 +88,18 @@ function createCard() {
   sharedMomentsArea.appendChild(cardWrapper);
 }
 
+function updateUI(data) {
+  for (let i = 0; i < data.length; i++) {
+    createCard(data[i]);
+  }
+}
+
 
 
 let url = 'https://pwagram-979a9-default-rtdb.europe-west1.firebasedatabase.app/posts.json'
 let networkDataReceived = false;
 
-fetch(url, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json"
-  },
-  body: JSON.stringify({
-    message: "Some message!"
-  })
-})
+fetch(url)
   .then(function(res) {
     return res.json();
   })
