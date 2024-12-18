@@ -57,7 +57,7 @@ function isInArray(string, array) {
 }
 
 self.addEventListener('fetch', function(event) {
-    let url = 'https://httpbin.org/get';
+    let url = 'https://pwagram-979a9-default-rtdb.europe-west1.firebasedatabase.app/posts.json';
 
     if(event.request.url.indexOf(url) > -1) {
         event.respondWith(
