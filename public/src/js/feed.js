@@ -90,7 +90,7 @@ function createCard() {
 
 
 
-let url = 'https://httpbin.org/post'
+let url = 'https://pwagram-979a9-default-rtdb.europe-west1.firebasedatabase.app/posts.json'
 let networkDataReceived = false;
 
 fetch(url, {
