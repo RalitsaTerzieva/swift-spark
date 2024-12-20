@@ -1,4 +1,4 @@
-const CACHE_STATIC_NAME = 'static-v17';
+const CACHE_STATIC_NAME = 'static-v18';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
 const STATIC_FILES = [
     '/',
