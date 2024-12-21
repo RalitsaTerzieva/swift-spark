@@ -129,8 +129,12 @@ if('caches' in window) {
     .then(function(data) {
       console.log('From cach data', data)
       if(!networkDataReceived) {
-        clearCards();
-        createCard();
+        let dataArray = [];
+        for(let key in data) {
+          dataArray.push(data[key]);
+        }
+       
+        updateUI(dataArray);
       }
     })
 }
