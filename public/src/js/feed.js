@@ -89,6 +89,7 @@ function createCard(data) {
 }
 
 function updateUI(data) {
+  clearCards();
   for (let i = 0; i < data.length; i++) {
     createCard(data[i]);
   }
@@ -111,8 +112,6 @@ fetch(url)
     for(let key in data) {
       dataArray.push(data[key]);
     }
-
-    clearCards();
     updateUI(dataArray)
   })
   .catch(error => {
