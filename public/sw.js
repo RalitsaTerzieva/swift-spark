@@ -1,4 +1,4 @@
-const CACHE_STATIC_NAME = 'static-v16';
+const CACHE_STATIC_NAME = 'static-v17';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
 const STATIC_FILES = [
     '/',
@@ -12,9 +12,9 @@ const STATIC_FILES = [
     '/src/css/app.css',
     '/src/css/feed.css',
     '/src/images/main-image.jpg',
-    'https://fonts.googleapis.com/css?family=Roboto:400,700',
-    'https://fonts.googleapis.com/icon?family=Material+Icons',
-    'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css'
+    // 'https://fonts.googleapis.com/css?family=Roboto:400,700',
+    // 'https://fonts.googleapis.com/icon?family=Material+Icons',
+    // 'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css'
    
 ];
 
