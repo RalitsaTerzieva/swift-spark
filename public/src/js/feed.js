@@ -106,8 +106,14 @@ fetch(url)
   .then(function(data) {
     networkDataReceived = true;
     console.log('From web data',data);
+
+    let dataArray = [];
+    for(let key in data) {
+      dataArray.push(data[key]);
+    }
+
     clearCards();
-    createCard();
+    updateUI(dataArray)
   })
   .catch(error => {
     console.log('Something is wrong with the fetch', error);
