@@ -1,3 +1,5 @@
+importScripts('/src/js/idb.js')
+
 const CACHE_STATIC_NAME = 'static-v18';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
 const STATIC_FILES = [
@@ -6,6 +8,7 @@ const STATIC_FILES = [
     '/offline.html',
     '/src/js/app.js',
     '/src/js/feed.js',
+    '/src/js/idb.js',
     '/src/js/promise.js',
     '/src/js/fetch.js',
     '/src/js/material.min.js',
