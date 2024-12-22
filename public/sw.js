@@ -1,6 +1,6 @@
 importScripts('/src/js/idb.js')
 
-const CACHE_STATIC_NAME = 'static-v18';
+const CACHE_STATIC_NAME = 'static-v19';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
 const STATIC_FILES = [
     '/',
@@ -18,8 +18,15 @@ const STATIC_FILES = [
     // 'https://fonts.googleapis.com/css?family=Roboto:400,700',
     // 'https://fonts.googleapis.com/icon?family=Material+Icons',
     // 'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css'
-   
 ];
+
+let indexDbVersion = 1;
+
+let dbPromise = idb.open('posts-store', indexDbVersion, function(db) {
+    if(!db.objectStoreNames.counts('posts')) {
+        db.createObjectStore('posts', {keyPath: 'id'});
+    }
+});
 
 this.addEventListener('install', function(event) {
     console.log('Installing Service worker...', event)
