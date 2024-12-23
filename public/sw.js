@@ -1,4 +1,6 @@
-importScripts('/src/js/idb.js')
+importScripts('https://cdn.jsdelivr.net/npm/idb/build/iife/index-min.js');
+
+const { openDB } = idb;
 
 const CACHE_STATIC_NAME = 'static-v19';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
@@ -22,11 +24,21 @@ const STATIC_FILES = [
 
 let indexDbVersion = 1;
 
-let dbPromise = idb.open('posts-store', indexDbVersion, function(db) {
-    if(!db.objectStoreNames.counts('posts')) {
-        db.createObjectStore('posts', {keyPath: 'id'});
-    }
-});
+let dbPromise;
+
+async function initializeDB() {
+    dbPromise = await openDB('my-database', 1, {
+        upgrade(db) {
+            if (!db.objectStoreNames.contains('posts')) {
+                db.createObjectStore('posts', { keyPath: 'id' });
+            }
+        }
+    });
+    console.log('Database initialized:', dbPromise);
+}
+
+// Call the function to initialize the database
+initializeDB();
 
 this.addEventListener('install', function(event) {
     console.log('Installing Service worker...', event)
@@ -70,16 +82,26 @@ self.addEventListener('fetch', function(event) {
     let url = 'https://pwagram-979a9-default-rtdb.europe-west1.firebasedatabase.app/posts';
 
     if(event.request.url.indexOf(url) > -1) {
-        event.respondWith(
-            caches.open(CACHE_DYNAMIC_NAME)
-              .then(function(cache) {
-                  return fetch(event.request)
-                      .then(function(response) {
-                          cache.put(event.request, response.clone());
-                          return response;
-                      })
-              })
-          )
+        event.respondWith(fetch(event.request)
+            .then(function(response) {
+                let cloneRes = response.clone();
+                cloneRes.json()
+                .then(async function(data) {
+                    for (let key in data) {
+                        try {
+                            const db = await dbPromise; // Await the database promise
+                            const transaction = db.transaction('posts', 'readwrite');
+                            const store = transaction.objectStore('posts');
+                            store.put(data[key]); // Add the data to the object store
+                            await transaction.complete; // Ensure the transaction completes
+                        } catch (error) {
+                            console.error('Error storing data in IndexedDB:', error);
+                        }
+                    }
+                })
+                return response;
+            })
+        )
     //check if my url is part of this array files
     } else if (isInArray(event.request.url, STATIC_FILES)) {
         //cache only startegy for static files
