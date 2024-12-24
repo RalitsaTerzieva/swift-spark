@@ -23,3 +23,12 @@ async function writeData(storeName, data) {
     await transaction.complete; // Ensure the transaction completes
     return dbPromise;
 }
+
+async function readAllData(storeData) {
+    return await dbPromise
+        .then(function(db) {
+            let transaction = db.transaction(storeData, 'readonly')
+            let store = transaction.objectStore(storeData);
+            return store.getAll();
+        })
+}
