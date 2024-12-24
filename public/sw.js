@@ -1,6 +1,5 @@
 importScripts('https://cdn.jsdelivr.net/npm/idb/build/iife/index-min.js');
-
-const { openDB } = idb;
+importScripts('/src/js/utility.js');
 
 const CACHE_STATIC_NAME = 'static-v19';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
@@ -24,18 +23,6 @@ const STATIC_FILES = [
 
 let indexDbVersion = 1;
 
-let dbPromise;
-
-async function initializeDB() {
-    dbPromise = await openDB('my-database', 1, {
-        upgrade(db) {
-            if (!db.objectStoreNames.contains('posts')) {
-                db.createObjectStore('posts', { keyPath: 'id' });
-            }
-        }
-    });
-    console.log('Database initialized:', dbPromise);
-}
 
 // Call the function to initialize the database
 initializeDB();
@@ -89,11 +76,7 @@ self.addEventListener('fetch', function(event) {
                 .then(async function(data) {
                     for (let key in data) {
                         try {
-                            const db = await dbPromise; // Await the database promise
-                            const transaction = db.transaction('posts', 'readwrite');
-                            const store = transaction.objectStore('posts');
-                            store.put(data[key]); // Add the data to the object store
-                            await transaction.complete; // Ensure the transaction completes
+                            writeData('posts', data[key]);
                         } catch (error) {
                             console.error('Error storing data in IndexedDB:', error);
                         }
