@@ -25,10 +25,23 @@ async function writeData(storeName, data) {
 }
 
 async function readAllData(storeData) {
-    return await dbPromise
-        .then(function(db) {
-            let transaction = db.transaction(storeData, 'readonly')
-            let store = transaction.objectStore(storeData);
-            return store.getAll();
-        })
+    console.log('Reading data from IndexedDB for:', storeData);
+    
+    // Check if dbPromise is properly initialized
+    if (!dbPromise) {
+        console.log('Database not initialized yet.');
+        return [];
+    }
+
+    try {
+        const db = await dbPromise; // Ensure dbPromise is resolved and contains a valid database instance
+        const transaction = db.transaction(storeData, 'readonly');
+        const store = transaction.objectStore(storeData);
+        const data = await store.getAll();
+        console.log('Data read from IndexedDB:', data);
+        return data;
+    } catch (error) {
+        console.error('Error reading data from IndexedDB:', error);
+        return [];
+    }
 }
