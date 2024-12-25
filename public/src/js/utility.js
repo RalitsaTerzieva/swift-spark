@@ -60,3 +60,18 @@ async function clearAllData(storeName) {
     }
 }
 
+async function deleteItemFromData(storeToUse, id) {
+    try {
+        const db = await dbPromise; // Resolve the database instance
+        const transaction = db.transaction(storeToUse, 'readwrite');
+        const store = transaction.objectStore(storeToUse);
+
+        await store.delete(id);
+        await transaction.done;
+
+        console.log(`The item cleared from ${storeToUse}.`);
+    } catch (error) {
+        console.error('Error clearing data from IndexedDB:', error);
+    }
+}
+
