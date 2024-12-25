@@ -76,6 +76,11 @@ function createCard(data) {
   cardSupportingText.className = 'mdl-card__supporting-text';
   cardSupportingText.textContent = data.location;
   cardSupportingText.style.textAlign = 'center';
+  sharedMomentsArea.style.display = 'flex';
+  sharedMomentsArea.style.flexDirection = 'column';
+  sharedMomentsArea.style.justifyContent = 'center';
+  sharedMomentsArea.style.alignItems = 'center';
+  sharedMomentsArea.style.gap = '15px';
   // let cardSaveButton = document.createElement('button');
   // cardSupportingText.appendChild(cardSaveButton);
   // cardSaveButton.textContent = 'Save';
