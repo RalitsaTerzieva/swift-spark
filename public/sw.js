@@ -2,7 +2,7 @@ importScripts('https://cdn.jsdelivr.net/npm/idb/build/iife/index-min.js');
 importScripts('/src/js/utility.js');
 
 
-const CACHE_STATIC_NAME = 'static-v22';
+const CACHE_STATIC_NAME = 'static-v23';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
 const STATIC_FILES = [
     '/',
@@ -68,18 +68,29 @@ self.addEventListener('fetch', function(event) {
 
     if(event.request.url.indexOf(url) > -1) {
         event.respondWith(fetch(event.request)
-            .then(function(response) {
+            .then(async function(response) {
                 let cloneRes = response.clone();
-                cloneRes.json()
-                .then(async function(data) {
+                try {
+                    console.log('Clearing data...');
+                    await clearAllData('posts');
+                    console.log('Data cleared. Processing new data...');
+                } catch (error) {
+                    console.error('Error clearing data:', error);
+                }
+
+                // Process and store new data
+                try {
+                    const data = await cloneRes.json();
                     for (let key in data) {
                         try {
-                            writeData('posts', data[key]);
+                            await writeData('posts', data[key]);
                         } catch (error) {
                             console.error('Error storing data in IndexedDB:', error);
                         }
                     }
-                })
+                } catch (error) {
+                    console.error('Error processing new data:', error);
+                }
                 return response;
             })
         )

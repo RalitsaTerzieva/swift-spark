@@ -45,12 +45,18 @@ async function readAllData(storeData) {
     }
 }
 
-async function clearAllData(st, ) {
-    return await dbPromise  
-        .then(function(db) {
-            const transaction = db.transaction(st, 'readwrite');
-            const store = transaction.objectStore(st);
-            store.clear();
-            return transaction.complete;
-        })
+async function clearAllData(storeName) {
+    try {
+        const db = await dbPromise; // Resolve the database instance
+        const transaction = db.transaction(storeName, 'readwrite');
+        const store = transaction.objectStore(storeName);
+
+        await store.clear(); // Clear the object store
+        await transaction.done; // Ensure the transaction is complete
+
+        console.log(`All data cleared from ${storeName}.`);
+    } catch (error) {
+        console.error('Error clearing data from IndexedDB:', error);
+    }
 }
+
