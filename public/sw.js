@@ -84,9 +84,9 @@ self.addEventListener('fetch', function(event) {
                     for (let key in data) {
                         try {
                             await writeData('posts', data[key])
-                                .then(function() {
-                                    deleteItemFromData('posts', key)
-                                })
+                                // .then(function() {
+                                //     deleteItemFromData('posts', key)
+                                // })
                         } catch (error) {
                             console.error('Error storing data in IndexedDB:', error);
                         }
