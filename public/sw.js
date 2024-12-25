@@ -83,7 +83,10 @@ self.addEventListener('fetch', function(event) {
                     const data = await cloneRes.json();
                     for (let key in data) {
                         try {
-                            await writeData('posts', data[key]);
+                            await writeData('posts', data[key])
+                                .then(function() {
+                                    deleteItemFromData('posts', key)
+                                })
                         } catch (error) {
                             console.error('Error storing data in IndexedDB:', error);
                         }
