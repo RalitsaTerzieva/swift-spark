@@ -44,3 +44,13 @@ async function readAllData(storeData) {
         return [];
     }
 }
+
+async function clearAllData(st, ) {
+    return await dbPromise  
+        .then(function(db) {
+            const transaction = db.transaction(st, 'readwrite');
+            const store = transaction.objectStore(st);
+            store.clear();
+            return transaction.complete;
+        })
+}
