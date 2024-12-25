@@ -1,7 +1,8 @@
 importScripts('https://cdn.jsdelivr.net/npm/idb/build/iife/index-min.js');
 importScripts('/src/js/utility.js');
 
-const CACHE_STATIC_NAME = 'static-v20';
+
+const CACHE_STATIC_NAME = 'static-v22';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
 const STATIC_FILES = [
     '/',
@@ -23,10 +24,6 @@ const STATIC_FILES = [
 
 let indexDbVersion = 1;
 
-
-// Call the function to initialize the database
-initializeDB();
-
 this.addEventListener('install', function(event) {
     console.log('Installing Service worker...', event)
     event.waitUntil(
@@ -38,7 +35,8 @@ this.addEventListener('install', function(event) {
             .catch(function(error) {
                 console.error('Precaching failed:', error);
             })
-    ) 
+    )
+    initializeDB();
 })
 
 self.addEventListener('activate', function(event) {

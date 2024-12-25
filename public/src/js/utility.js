@@ -25,8 +25,7 @@ async function writeData(storeName, data) {
 }
 
 async function readAllData(storeData) {
-    console.log('Reading data from IndexedDB for:', storeData);
-    
+
     // Check if dbPromise is properly initialized
     if (!dbPromise) {
         console.log('Database not initialized yet.');
