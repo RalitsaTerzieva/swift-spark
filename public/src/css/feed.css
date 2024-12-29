@@ -47,3 +47,7 @@
     width: 45%;
   }
 }
+
+.shared-moment-card .mdl-card {
+  height: 120px;
+}
