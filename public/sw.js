@@ -2,7 +2,7 @@ importScripts('https://cdn.jsdelivr.net/npm/idb/build/iife/index-min.js');
 importScripts('/src/js/utility.js');
 
 
-const CACHE_STATIC_NAME = 'static-v24';
+const CACHE_STATIC_NAME = 'static-v25';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
 const STATIC_FILES = [
     '/',
