@@ -51,3 +51,15 @@
 .shared-moment-card .mdl-card {
   height: 120px;
 }
+
+@media (min-height: 800px) {
+  .shared-moment-card .mdl-card  {
+    height: 160px;
+  }
+}
+
+@media (min-height: 1200px) {
+  .shared-moment-card .mdl-card  {
+    height: 200px;
+  }
+}
