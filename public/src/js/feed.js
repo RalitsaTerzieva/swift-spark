@@ -6,7 +6,10 @@ var sharedMomentsArea = document.querySelector('#shared-moments');
 
 function openCreatePostModal() {
   createPostArea.style.display = 'block';
-  createPostArea.style.transform = 'translateY(0)';
+  setTimeout(function() {
+    createPostArea.style.transform = 'translateY(0)';
+  }, 1)
+ 
   if (deferredPrompt) {
     deferredPrompt.prompt() // will now show the banner to the user at this moment
 
