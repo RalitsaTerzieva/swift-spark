@@ -2,6 +2,7 @@ const { openDB } = idb;
 
 
 let dbPromise;
+let syncPosts;
 
 async function initializeDB() {
     dbPromise = await openDB('my-database', 1, {
@@ -12,6 +13,17 @@ async function initializeDB() {
         }
     });
     console.log('Database initialized:', dbPromise);
+}
+
+async function initializeSyncPosts() {
+    syncPosts = await openDB('sync-posts', 2, {
+        upgrade(db) {
+            if (!db.objectStoreNames.contains('sync-posts')) {
+                db.createObjectStore('sync-posts', { keyPath: 'id' });
+            }
+        }
+    });
+    console.log('SyncPosts Database initialized:', syncPosts);
 }
 
 

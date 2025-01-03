@@ -2,9 +2,9 @@ var shareImageButton = document.querySelector('#share-image-button');
 var createPostArea = document.querySelector('#create-post');
 var closeCreatePostModalButton = document.querySelector('#close-create-post-modal-btn');
 var sharedMomentsArea = document.querySelector('#shared-moments');
-let form = document.querySelector('form')
-let title = documtn.querySelector('#title');
-let location = document.querySelector('#location');
+var form = document.querySelector('form')
+var titleInput = document.querySelector('#title');
+var locationInput = document.querySelector('#location');
 
 
 function openCreatePostModal() {
@@ -156,7 +156,26 @@ form.addEventListener('submit', function(event) {
     if('serviceWorker' in navigator && 'SyncManager' in window) {
         navigator.serviceWorker.ready
             .then(function(sw) {
-                sw.sync.register('sync-new-post');
+              let post = {
+                id: new Date().toISOString(),
+                title: titleInput.value,
+                location: locationInput.value
+              }
+                writeData('sync-posts', post)
+                  .then(function() {
+                    return sw.sync.register('sync-new-post');
+                  })
+                  .then(function() {
+                    let snackeBarContainer = document.querySelector('#confirmation-toast')
+                    let data = {
+                      message: 'Your post was saved for syncing!'
+                    }
+                    snackeBarContainer.MaterialSnackbar.showSnackbar(data);
+                  })
+                  .catch(function(error) {
+                    console.log('Error from the sync posts process', error)
+                  })
+                
             })
     }
 })

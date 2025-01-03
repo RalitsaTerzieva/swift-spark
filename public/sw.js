@@ -2,7 +2,7 @@ importScripts('https://cdn.jsdelivr.net/npm/idb/build/iife/index-min.js');
 importScripts('/src/js/utility.js');
 
 
-const CACHE_STATIC_NAME = 'static-v29';
+const CACHE_STATIC_NAME = 'static-v30';
 const CACHE_DYNAMIC_NAME = 'dynamic-v7';
 const STATIC_FILES = [
     '/',
@@ -37,7 +37,10 @@ this.addEventListener('install', function(event) {
             })
     )
     initializeDB();
+    initializeSyncPosts();
 })
+
+
 
 self.addEventListener('activate', function(event) {
     event.waitUntil(
