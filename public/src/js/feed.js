@@ -142,6 +142,24 @@ fetch(url)
     console.log('Something is wrong with the fetch', error);
   });
 
+function sendData() {
+  fetch('https://pwagram-979a9-default-rtdb.europe-west1.firebasedatabase.app/posts.json', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      id: new Date().toISOString(),
+      title: titleInput.value,
+      location: locationInput.value,
+      image: "https://media.timeout.com/images/106166440/1536/1152/image.webp"
+    })
+  })
+  .then(function(res) {
+    console.log('Send data from sendData function', res)
+  })
+} 
 
 form.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -177,6 +195,8 @@ form.addEventListener('submit', function(event) {
                   })
                 
             })
+    } else {
+      sendData();
     }
 })
 
