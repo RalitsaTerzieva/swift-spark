@@ -2,8 +2,8 @@ importScripts('https://cdn.jsdelivr.net/npm/idb/build/iife/index-min.js');
 importScripts('/src/js/utility.js');
 
 
-const CACHE_STATIC_NAME = 'static-v30';
-const CACHE_DYNAMIC_NAME = 'dynamic-v7';
+const CACHE_STATIC_NAME = 'static-v33';
+const CACHE_DYNAMIC_NAME = 'dynamic-v9';
 const STATIC_FILES = [
     '/',
     '/index.html',
@@ -29,15 +29,20 @@ this.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(CACHE_STATIC_NAME)
             .then(function(cache) {
-                console.log('Precaching App Shell')
-                cache.addAll(STATIC_FILES)
+                console.log('Precaching App Shell');
+                return cache.addAll(STATIC_FILES);
             })
             .catch(function(error) {
                 console.error('Precaching failed:', error);
             })
-    )
-    initializeDB();
-    initializeSyncPosts();
+            .then(async () => {
+                // Ensure the database is initialized before proceeding
+                console.log('Initializing databases...');
+                await initializeDB(); // Initialize the main database
+                await initializeSyncPosts(); // Initialize sync-posts database
+                console.log('Databases initialized successfully');
+            })
+    );
 })
 
 
@@ -176,3 +181,43 @@ self.addEventListener('fetch', function(event) {
 //         })
 //     );
 //   });
+
+
+self.addEventListener('sync', function(event) {
+    console.log('Service worker inside the sync event', event);
+
+    if(event.tag === 'sync-new-post') {
+        console.log('Service worker syncing new post');
+
+        event.waitUntil(
+            readAllData('sync-posts')
+                .then(function(data) {
+                    for (let dt of data) {
+                        fetch('https://pwagram-979a9-default-rtdb.europe-west1.firebasedatabase.app/posts.json', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                        id: new Date().toISOString(),
+                        title: dt.title,
+                        location: dt.location,
+                        image: "https://media.timeout.com/images/106166440/1536/1152/image.webp"
+                        })
+                    })
+                    .then(function(res) {
+                        console.log('Inside sync event', res)
+                        if(res.ok) {
+                            deleteItemFromData('sync-posts', dt.id);
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log('Error from sync event', error);
+                    })
+                    }
+                    
+                })
+        )
+    }
+})

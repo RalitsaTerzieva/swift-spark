@@ -175,23 +175,27 @@ form.addEventListener('submit', function(event) {
     if('serviceWorker' in navigator && 'SyncManager' in window) {
         navigator.serviceWorker.ready
             .then(function(sw) {
+              console.log('0')
               let post = {
                 id: new Date().toISOString(),
                 title: titleInput.value,
                 location: locationInput.value
               }
                 writeData('sync-posts', post)
+                console.log('1')
                   .then(function() {
                     return sw.sync.register('sync-new-post');
                   })
                   .then(function() {
-                    let snackeBarContainer = document.querySelector('#confirmation-toast')
+                    console.log('2')
+                    let snackBarContainer = document.querySelector('#confirmation-toast')
                     let data = {
                       message: 'Your post was saved for syncing!'
                     }
-                    snackeBarContainer.MaterialSnackbar.showSnackbar(data);
+                    snackBarContainer.MaterialSnackbar.showSnackbar(data);
                   })
                   .catch(function(error) {
+                    console.log('3')
                     console.log('Error from the sync posts process', error)
                   })
                 

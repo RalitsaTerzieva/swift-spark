@@ -16,9 +16,11 @@ async function initializeDB() {
 }
 
 async function initializeSyncPosts() {
-    syncPosts = await openDB('sync-posts', 2, {
+    console.log('Initializing the sync-posts database...');
+    syncPosts = await openDB('sync-posts', 1, {
         upgrade(db) {
             if (!db.objectStoreNames.contains('sync-posts')) {
+                console.log('Creating object store "sync-posts"');
                 db.createObjectStore('sync-posts', { keyPath: 'id' });
             }
         }
@@ -28,13 +30,32 @@ async function initializeSyncPosts() {
 
 
 async function writeData(storeName, data) {
-    const db = await dbPromise;
-    const transaction = db.transaction(storeName, 'readwrite');
-    const store = transaction.objectStore(storeName);
-    store.put(data); // Add the data to the object store
-    await transaction.complete; // Ensure the transaction completes
-    return dbPromise;
+    try {
+        console.log('writeData called with:', storeName, data);
+        const db = await dbPromise;
+        console.log('Database instance:', db);
+
+        if (!db) {
+            throw new Error('Database not initialized.');
+        }
+
+        const transaction = db.transaction(storeName, 'readwrite');
+        console.log('Transaction created:', transaction);
+
+        const store = transaction.objectStore(storeName);
+        console.log('Object store accessed:', store);
+
+        store.put(data); // Add the data to the object store
+        await transaction.complete; // Ensure the transaction completes
+        console.log('Data successfully written to store:', storeName);
+
+        return dbPromise;
+    } catch (error) {
+        console.error('Error in writeData:', error);
+        throw error; // Re-throw the error for further handling
+    }
 }
+
 
 async function readAllData(storeData) {
 
