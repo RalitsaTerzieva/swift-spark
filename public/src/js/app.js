@@ -1,4 +1,5 @@
 let deferredPrompt;
+let enableNotificationsButtons = document.querySelector('.enable-notifications');
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
