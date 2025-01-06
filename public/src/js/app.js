@@ -18,7 +18,9 @@ function displayConfirmNotification() {
     if ('serviceWorker' in navigator) {
         let options = {
             body: 'You successfully subcribe for our Notification service!',
-            icon: '/src/images/icons/app-icon-96x96.png'
+            icon: '/src/images/icons/app-icon-96x96.png',
+            image: '/src/images/sf-boat.jpg',
+            dir: 'ltr'
         };
 
         navigator.serviceWorker.ready
