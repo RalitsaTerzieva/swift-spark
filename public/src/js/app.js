@@ -14,6 +14,13 @@ window.addEventListener('beforeinstallprompt', function(event) {
     return false
 })
 
+function displayConfirmNotification() {
+    let options = {
+        body: 'You successfully subcribe for our Notification service!'
+    };
+    new Notification('Successfully subcribed!', options)
+}
+
 function askForNotificationPermission() {
     Notification.requestPermission(function(result) {
         console.log('User permission choice', result);
@@ -21,7 +28,7 @@ function askForNotificationPermission() {
         if(result !== 'granted') {
             console.log('No notification permission granted!')
         } else {
-
+            displayConfirmNotification();
         }
     })
 }
