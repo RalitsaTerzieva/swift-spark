@@ -221,3 +221,20 @@ self.addEventListener('sync', function(event) {
         )
     }
 })
+
+
+self.addEventListener('notificationclick', function(event) {
+    let notification = event.notification;
+    let action = event.action;
+
+    console.log(notification)
+
+    if(action === 'confirm') {
+        console.log('Confirm was chosen')
+        notification.close();
+    } else {
+        console.log(action);
+        notification.close();
+    }
+
+})
