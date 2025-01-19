@@ -12,13 +12,16 @@ var imagePicker = document.querySelector('#image-picker');
 var imagePickerArea = document.querySelector('#pick-image');
 
 
+function initializeMedia() {
 
+}
 
 
 function openCreatePostModal() {
   createPostArea.style.display = 'block';
   setTimeout(function() {
     createPostArea.style.transform = 'translateY(0)';
+    initializeMedia();
   }, 1)
  
   if (deferredPrompt) {
