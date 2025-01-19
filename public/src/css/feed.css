@@ -20,6 +20,10 @@
   margin: auto;
 }
 
+#create-post #pick-image {
+  display: none;
+}
+
 .main-image {
   max-width: 100%;
   margin: auto;
