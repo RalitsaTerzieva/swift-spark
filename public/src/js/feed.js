@@ -13,7 +13,25 @@ var imagePickerArea = document.querySelector('#pick-image');
 
 
 function initializeMedia() {
+  //API that gives us access to camera and microphone
+  if(!('mediaDevices' in navigator)) { 
+    navigator.mediaDevices = {};
+  }
 
+  if(!('getUserMedia' in navigator.mediaDevices)) {
+    //constraints will be video or audio
+    navigator.mediaDevices.getUserMedia = function(constraints) {
+      var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+      if(!getUserMedia) {
+        return Promise.reject('getUserMedia is not implemented!')
+      }
+
+      return new Promise(function(resolve, reject) {
+        getUserMedia.call(navigator, constraints, resolve, reject);
+      });
+    } 
+  }
 }
 
 
