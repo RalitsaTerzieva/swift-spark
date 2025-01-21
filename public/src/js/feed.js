@@ -47,6 +47,7 @@ function initializeMedia() {
 captureButton.addEventListener('click', function(event) {
   canvasElement.style.display = 'block';
   videoPlayer.style.display = 'none';
+  captureButton.style.display = 'none';
 });
 
 function openCreatePostModal() {
