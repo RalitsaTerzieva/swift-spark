@@ -48,6 +48,10 @@ captureButton.addEventListener('click', function(event) {
   canvasElement.style.display = 'block';
   videoPlayer.style.display = 'none';
   captureButton.style.display = 'none';
+  // how we are going to draw on it
+  let context = canvasElement.getContext('2d');
+  let properHeight = videoPlayer.videoHeight / (videoPlayer.videoWidth / canvas.width)
+  context.drawImage(videoPlayer, 0, 0, canvas.width, properHeight)
 });
 
 function openCreatePostModal() {
