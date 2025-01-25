@@ -2,13 +2,14 @@ importScripts('https://cdn.jsdelivr.net/npm/idb/build/iife/index-min.js');
 importScripts('/src/js/utility.js');
 
 
-const CACHE_STATIC_NAME = 'static-v41';
+const CACHE_STATIC_NAME = 'static-v42';
 const CACHE_DYNAMIC_NAME = 'dynamic-v9';
 const STATIC_FILES = [
     '/',
     '/index.html',
     '/offline.html',
     '/src/js/app.js',
+    '/src/js/utility.js',
     '/src/js/feed.js',
     '/src/js/idb.js',
     '/src/js/promise.js',
