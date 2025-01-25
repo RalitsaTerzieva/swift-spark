@@ -10,6 +10,7 @@ var canvasElement = document.querySelector('#canvas');
 var captureButton = document.querySelector('#capture-btn');
 var imagePicker = document.querySelector('#image-picker');
 var imagePickerArea = document.querySelector('#pick-image');
+var picture;
 
 
 function initializeMedia() {
@@ -55,6 +56,7 @@ captureButton.addEventListener('click', function(event) {
   videoPlayer.srcObject.getVideoTracks().forEach(function(track) {
     track.stop();
   });
+  picture = dataURItoBlob(canvasElement.toDataURL())
 });
 
 
